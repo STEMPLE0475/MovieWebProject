@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.home.mapper.HomeMapper">
+
+    <select id="selectMovieMasterList" resultType="map">
+        SELECT MOVIE_ID AS "movieId",
+        TITLE AS "title",
+        FIRST_RELEASE_DATE AS "firstReleaseDate",
+        REG_ID AS "regId",
+        REG_DT AS "regDt",
+        MOD_ID AS "modId",
+        MOD_DT AS "modDt"
+        FROM MOVIE
+        ORDER BY REG_DT DESC, MOVIE_ID DESC
+    </select>
+
+</mapper>

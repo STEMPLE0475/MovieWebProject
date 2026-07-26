@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.movie.mapper.MovieMapper">
+
+    <insert id="insertMovieMaster" parameterType="map">
+        INSERT INTO MOVIE (MOVIE_ID, TITLE, FIRST_RELEASE_DATE, REG_ID, REG_DT)
+        VALUES (MOVIE_SEQ.NEXTVAL, #{title}, #{firstReleaseDate}, #{regId}, SYSDATE)
+    </insert>
+
+    <select id="selectMovieMasterList" resultType="map">
+        SELECT MOVIE_ID AS "movieId",
+        TITLE AS "title",
+        FIRST_RELEASE_DATE AS "firstReleaseDate",
+        REG_ID AS "regId",
+        REG_DT AS "regDt",
+        MOD_ID AS "modId",
+        MOD_DT AS "modDt"
+        FROM MOVIE
+        ORDER BY REG_DT DESC, MOVIE_ID DESC
+    </select>
+
+    <select id="selectMovieMasterListById" parameterType="long" resultType="map">
+        SELECT MOVIE_ID AS "movieId",
+        TITLE AS "title",
+        FIRST_RELEASE_DATE AS "firstReleaseDate",
+        REG_ID AS "regId",
+        REG_DT AS "regDt",
+        MOD_ID AS "modId",
+        MOD_DT AS "modDt"
+        FROM MOVIE
+        WHERE MOVIE_ID = #{movieId}
+    </select>
+
+    <update id="updateMovieMaster" parameterType="map">
+        UPDATE MOVIE
+        SET TITLE = #{title},
+        FIRST_RELEASE_DATE = #{firstReleaseDate},
+        MOD_ID = #{modId},
+        MOD_DT = SYSDATE
+        WHERE MOVIE_ID = #{movieId}
+    </update>
+
+    <delete id="deleteMovieMasterById" parameterType="long">
+        DELETE FROM MOVIE WHERE MOVIE_ID = #{movieId}
+    </delete>
+</mapper>

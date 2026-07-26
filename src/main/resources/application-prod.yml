@@ -1,0 +1,18 @@
+server:
+  port: 8060
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    # 운영 환경에서는 환경 변수 또는 AWS Secrets Manager 값을 사용한다.
+    url: jdbc:oracle:thin:@//${DB_HOST}:${DB_PORT:1521}/${DB_SERVICE_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: oracle.jdbc.OracleDriver
+
+logging:
+  level:
+    root: WARN
+    com.example.demo: INFO

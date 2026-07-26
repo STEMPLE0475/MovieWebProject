@@ -1,0 +1,17 @@
+server:
+  port: 8070
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    # 환경 변수로 주입: DB_HOST, DB_PORT, DB_SERVICE_NAME, DB_USERNAME, DB_PASSWORD
+    url: jdbc:oracle:thin:@//${DB_HOST:127.0.0.1}:${DB_PORT:1521}/${DB_SERVICE_NAME:FREEPDB1}
+    username: ${DB_USERNAME:portfolio}
+    password: ${DB_PASSWORD:portfolio}
+    driver-class-name: oracle.jdbc.OracleDriver
+
+logging:
+  level:
+    root: INFO

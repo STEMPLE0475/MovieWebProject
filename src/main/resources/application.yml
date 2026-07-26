@@ -1,0 +1,24 @@
+server:
+  port: 8060
+
+spring:
+  application:
+    name: cgv-portfolio
+  profiles:
+    default: dev
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.example.demo.movie.domain
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  level:
+    com.example.demo: DEBUG
+    com.example.demo.movie.mapper: DEBUG

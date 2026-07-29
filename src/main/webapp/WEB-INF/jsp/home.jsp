@@ -74,7 +74,7 @@
             <span class="material-symbols-outlined">
                 theater_comedy
             </span>
-                <span>특별관</span>
+                <span>가래떡</span>
             </a>
         </nav>
     </div>

@@ -21,26 +21,18 @@
             <th>ID</th>
             <th>Title</th>
             <th>First release</th>
-            <th>Registered by</th>
-            <th>Registered at</th>
-            <th>Actions</th>
+            <th>Screening start</th>
+            <th>Screening end</th>
         </tr>
         </thead>
         <tbody><c:forEach var="movie" items="${movies}">
             <tr>
                 <td>#${movie.movieId}</td>
-                <td class="title"><c:out value="${movie.title}"/></td>
+                <td class="title" style="color: #ffffff;"><c:out value="${movie.title}"/></td>
                 <td>${movie.firstReleaseDate}</td>
-                <td><c:out value="${movie.regId}"/></td>
-                <td>${movie.regDt}</td>
-                <td class="actions"><a class="text-button"
-                                       href="/admin/movies/${movie.movieId}/edit">Edit</a>
-                    <form action="/admin/movies/${movie.movieId}/delete" method="post"
-                          onsubmit="return confirm('Delete this movie?');"><input type="hidden" name="_csrf"
-                                                                                  value="${_csrf.token}">
-                        <button class="text-button danger" type="submit">Delete</button>
-                    </form>
-                </td>
+                <td>${movie.screeningStartDate}</td>
+                <td>${movie.screeningEndDate}</td>
+
             </tr>
         </c:forEach></tbody>
     </table>

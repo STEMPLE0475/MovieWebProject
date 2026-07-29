@@ -3,14 +3,16 @@
 <mapper namespace="com.example.demo.movie.mapper.MovieMapper">
 
     <insert id="insertMovieMaster" parameterType="map">
-        INSERT INTO MOVIE (MOVIE_ID, TITLE, FIRST_RELEASE_DATE, REG_ID, REG_DT)
-        VALUES (MOVIE_SEQ.NEXTVAL, #{title}, #{firstReleaseDate}, #{regId}, SYSDATE)
+        INSERT INTO MOVIE (MOVIE_ID, TITLE, FIRST_RELEASE_DATE, SCREENING_START_DATE, SCREENING_END_DATE, REG_ID, REG_DT)
+        VALUES (MOVIE_SEQ.NEXTVAL, #{title}, #{firstReleaseDate}, #{screeningStartDate}, #{screeningEndDate}, #{regId}, SYSDATE)
     </insert>
 
     <select id="selectMovieMasterList" resultType="map">
         SELECT MOVIE_ID AS "movieId",
         TITLE AS "title",
         FIRST_RELEASE_DATE AS "firstReleaseDate",
+        SCREENING_START_DATE AS "screeningStartDate",
+        SCREENING_END_DATE AS "screeningEndDate",
         REG_ID AS "regId",
         REG_DT AS "regDt",
         MOD_ID AS "modId",
@@ -23,6 +25,8 @@
         SELECT MOVIE_ID AS "movieId",
         TITLE AS "title",
         FIRST_RELEASE_DATE AS "firstReleaseDate",
+        SCREENING_START_DATE AS "screeningStartDate",
+        SCREENING_END_DATE AS "screeningEndDate",
         REG_ID AS "regId",
         REG_DT AS "regDt",
         MOD_ID AS "modId",
@@ -35,6 +39,8 @@
         UPDATE MOVIE
         SET TITLE = #{title},
         FIRST_RELEASE_DATE = #{firstReleaseDate},
+        SCREENING_START_DATE = #{screeningStartDate},
+        SCREENING_END_DATE = #{screeningEndDate},
         MOD_ID = #{modId},
         MOD_DT = SYSDATE
         WHERE MOVIE_ID = #{movieId}

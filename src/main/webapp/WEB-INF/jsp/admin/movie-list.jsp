@@ -32,6 +32,8 @@
                         <th>ID</th>
                         <th>Title</th>
                         <th>First release</th>
+                        <th>Screening start</th>
+                        <th>Screening end</th>
                         <th>Registered by</th>
                         <th>Registered at</th>
                         <th>Actions</th>
@@ -42,6 +44,8 @@
                             <td>#${movie.movieId}</td>
                             <td class="title"><c:out value="${movie.title}"/></td>
                             <td>${movie.firstReleaseDate}</td>
+                            <td>${movie.screeningStartDate}</td>
+                            <td>${movie.screeningEndDate}</td>
                             <td><c:out value="${movie.regId}"/></td>
                             <td>${movie.regDt}</td>
                             <td class="actions"><a class="text-button"

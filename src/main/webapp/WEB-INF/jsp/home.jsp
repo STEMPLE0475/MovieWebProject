@@ -74,7 +74,7 @@
             <span class="material-symbols-outlined">
                 theater_comedy
             </span>
-                <span>승준</span>
+                <span>가래떡</span>
             </a>
         </nav>
     </div>

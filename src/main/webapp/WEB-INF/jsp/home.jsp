@@ -74,7 +74,7 @@
             <span class="material-symbols-outlined">
                 theater_comedy
             </span>
-                <span>특별관</span>
+                <span>승준</span>
             </a>
         </nav>
     </div>

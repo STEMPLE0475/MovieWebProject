@@ -6,15 +6,11 @@
         SELECT MOVIE_ID AS "movieId",
         TITLE AS "title",
         FIRST_RELEASE_DATE AS "firstReleaseDate",
-        SCREENING_START_DATE AS "screeningStartDate",
-        SCREENING_END_DATE AS "screeningEndDate",
         REG_ID AS "regId",
         REG_DT AS "regDt",
         MOD_ID AS "modId",
         MOD_DT AS "modDt"
         FROM MOVIE
-        WHERE SCREENING_START_DATE &lt;= TRUNC(SYSDATE) + 7
-        AND SCREENING_END_DATE &gt;= TRUNC(SYSDATE)
         ORDER BY REG_DT DESC, MOVIE_ID DESC
     </select>
 

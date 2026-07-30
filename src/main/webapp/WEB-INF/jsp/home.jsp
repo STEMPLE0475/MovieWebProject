@@ -26,14 +26,14 @@
         </a>
 
         <nav class="menuList">
-            <a href="/" class="menu active">
+            <a href="#" class="menu active">
             <span class="material-symbols-outlined">
                 home
             </span>
                 <span>홈</span>
             </a>
 
-            <a href="#" class="menu">
+            <a href="/admin/code/list" class="menu">
             <span class="material-symbols-outlined">
                 movie
             </span>

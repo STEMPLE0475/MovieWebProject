@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.admin.code.repository.CodeRepository">
+
+    <select id="searchCode" parameterType="map" resultType="map">
+        SELECT
+        CODE_ID,
+        GROUP_CODE,
+        CODE,
+        CODE_NAME,
+        PARENT_CODE_ID,
+        SORT_ORDER,
+        USE_YN
+        FROM T_CODE
+        <where>
+            <if test="group_code != null and group_code != ''">
+                AND GROUP_CODE = #{group_code}
+            </if>
+            <if test="parent_code_id != null and parent_code_id != ''">
+                AND PARENT_CODE_ID = #{parent_code_id}
+            </if>
+            <if test="use_yn != null and use_yn != ''">
+                AND USE_YN = #{use_yn}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND (CODE LIKE '%' || #{keyword} || '%' OR CODE_NAME LIKE '%' || #{keyword} || '%')
+            </if>
+        </where>
+        ORDER BY SORT_ORDER ASC
+    </select>
+
+    <insert id="insertCode" parameterType="map">
+        <selectKey keyProperty="code_id" order="BEFORE" resultType="long">
+            SELECT T_CODE_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO T_CODE (
+        CODE_ID, GROUP_CODE, CODE, CODE_NAME,
+        PARENT_CODE_ID, SORT_ORDER, USE_YN, REG_ID, REG_DT
+        ) VALUES (
+        #{code_id}, #{group_code}, #{code}, #{code_name},
+        #{parent_code_id}, #{sort_order}, 'Y', 'ADMIN', SYSDATE
+        )
+    </insert>
+
+    <update id="updateCode" parameterType="map">
+        UPDATE T_CODE
+        <set>
+            <if test="code != null and code != ''">CODE = #{code},</if>
+            <if test="code_name != null and code_name != ''">CODE_NAME = #{code_name},</if>
+            <if test="sort_order != null and sort_order != ''">SORT_ORDER = #{sort_order},</if>
+            <if test="use_yn != null and use_yn != ''">USE_YN = #{use_yn},</if>
+            MOD_ID = 'ADMIN',
+            MOD_DT = SYSDATE
+        </set>
+        WHERE CODE_ID = #{code_id}
+    </update>
+
+    <update id="nonUseCode" parameterType="map">
+        UPDATE T_CODE
+        SET USE_YN = 'N',
+        MOD_ID = 'ADMIN',
+        MOD_DT = SYSDATE
+        WHERE CODE_ID = #{code_id}
+    </update>
+</mapper>

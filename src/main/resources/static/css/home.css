@@ -106,3 +106,10 @@
     margin:14px 0;
     background:#ddd;
 }
+
+@media (max-width: 1350px){
+    .leftContentArea,
+    .rightContentArea{
+        display: none;
+    }
+}

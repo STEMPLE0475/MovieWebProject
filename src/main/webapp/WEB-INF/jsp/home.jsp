@@ -33,7 +33,7 @@
                 <span>홈</span>
             </a>
 
-            <a href="/admin/code/list" class="menu">
+            <a href="/user/cinetalk" class="menu">
             <span class="material-symbols-outlined">
                 movie
             </span>
@@ -63,7 +63,7 @@
 
             <div class="menuDivider"></div>
 
-            <a href="#" class="menu sub">
+            <a href="/admin/code/list" class="menu sub">
             <span class="material-symbols-outlined">
                 location_on
             </span>
@@ -74,7 +74,7 @@
             <span class="material-symbols-outlined">
                 theater_comedy
             </span>
-                <span>가래떡</span>
+                <span>특별관</span>
             </a>
         </nav>
     </div>

@@ -6,6 +6,8 @@
         SELECT MOVIE_ID AS "movieId",
         TITLE AS "title",
         FIRST_RELEASE_DATE AS "firstReleaseDate",
+        SCREENING_START_DATE AS "screeningStartDate",
+        SCREENING_END_DATE AS "screeningEndDate",
         REG_ID AS "regId",
         REG_DT AS "regDt",
         MOD_ID AS "modId",

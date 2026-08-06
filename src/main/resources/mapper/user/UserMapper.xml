@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.user.mapper.UserMapper">
+
+    <!-- 여기에 SQL 쿼리를 작성합니다 -->
+    <select id="findByUserId" resultType="com.example.demo.user.dto.UserDTO">
+        SELECT LOGIN_ID AS userId,
+               LOGIN_PW AS password,
+               NICKNAME AS name
+        FROM USERS
+        WHERE LOGIN_ID = #{loginId}
+    </select>
+
+</mapper>

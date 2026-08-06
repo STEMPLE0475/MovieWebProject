@@ -19,6 +19,25 @@
 </head>
 <body class="home-body">
 <main class="hero">
+    <!-- 우측 상단 로그인 / 회원 정보 영역 -->
+    <div class="top-user-nav">
+        <c:choose>
+            <c:when test="${not empty sessionScope.loginUser}">
+                <span class="user-info"><strong>${sessionScope.loginUser.name}</strong>님</span>
+                <a href="/user/logout" class="logout-btn">
+                    <span class="material-symbols-outlined">logout</span>
+                    로그아웃
+                </a>
+            </c:when>
+            <c:otherwise>
+                <a href="/user/login" class="login-btn">
+                    <span class="material-symbols-outlined">login</span>
+                    로그인
+                </a>
+            </c:otherwise>
+        </c:choose>
+    </div>
+
     <div class="leftContentArea">
 
         <a href="/" class="logo">

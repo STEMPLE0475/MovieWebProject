@@ -95,6 +95,13 @@
             </span>
                 <span>특별관</span>
             </a>
+
+            <a href="/admin" class="menu sub">
+            <span class="material-symbols-outlined">
+                admin_panel_settings
+            </span>
+                <span>관리자 페이지</span>
+            </a>
         </nav>
     </div>
 
@@ -102,8 +109,6 @@
         <p class="eyebrow">CGV PORTFOLIO &middot; ADMIN DEMO</p>
         <h1>Every moment of movies,<br><em>made clearer.</em></h1>
         <p class="hero-copy">A simple movie-management demo built with<br>Spring Boot, JSP, MyBatis, and Oracle.</p>
-        <a class="primary-button" href="/admin/movies">Open movie admin <span>&rarr;</span></a>
-        <a class="primary-button" href="/user/myMoveList">Open myMoveLIst</a>
         <table class="movie-table">
             <thead>
             <tr>

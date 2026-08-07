@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.admin.theater.repository.TheaterRepository">
+
+    <select id="selectTheaterList" resultType="map">
+        SELECT T.THEATER_ID,
+               T.THEATER_NAME,
+               T.LOCATION_CODE,
+               L.CODE_NAME AS LOCATION_NAME,
+               T.USE_YN,
+               T.CONTEXT
+        FROM T_THEATER T
+        LEFT JOIN T_CODE L ON L.CODE = T.LOCATION_CODE AND L.GROUP_CODE = 'LOCATION'
+        ORDER BY T.THEATER_ID
+    </select>
+
+    <insert id="insertTheater" parameterType="map">
+        <selectKey keyProperty="theaterId" order="BEFORE" resultType="long">
+            SELECT THEATER_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO T_THEATER (THEATER_ID, THEATER_NAME, LOCATION_CODE, USE_YN, CONTEXT)
+        VALUES (#{theaterId}, #{theaterName}, #{locationCode}, 'Y', #{context})
+    </insert>
+
+    <update id="updateTheater" parameterType="map">
+        UPDATE T_THEATER
+        SET THEATER_NAME = #{theaterName},
+            LOCATION_CODE = #{locationCode},
+            USE_YN = #{useYn},
+            CONTEXT = #{context}
+        WHERE THEATER_ID = #{theaterId}
+    </update>
+</mapper>

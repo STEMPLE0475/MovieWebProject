@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.admin.showtime.repository.ShowtimeRepository">
+
+    <select id="selectShowtimeList" resultType="map">
+        SELECT ST.SHOWTIME_ID,
+               M.TITLE AS MOVIE_TITLE,
+               T.THEATER_NAME,
+               SC.NAME AS SCREEN_NAME,
+               TO_CHAR(ST.START_AT, 'YYYY-MM-DD HH24:MI') AS START_AT,
+               TO_CHAR(ST.END_AT, 'YYYY-MM-DD HH24:MI') AS END_AT,
+               ST.SEAT_COUNT,
+               COUNT(SS.BOOKER_USER_UID) AS BOOKED_SEAT_COUNT
+        FROM T_MOVIE_SHOWTIME ST
+        JOIN MOVIE M ON M.MOVIE_ID = ST.MOVIE_ID
+        JOIN T_THEATER T ON T.THEATER_ID = ST.THEATER_ID
+        JOIN T_SCREEN SC ON SC.SCREEN_ID = ST.SCREEN_ID
+        LEFT JOIN T_MOVIE_SHOWTIME_SEAT SS ON SS.SHOWTIME_ID = ST.SHOWTIME_ID
+        GROUP BY ST.SHOWTIME_ID, M.TITLE, T.THEATER_NAME, SC.NAME,
+                 ST.START_AT, ST.END_AT, ST.SEAT_COUNT
+        ORDER BY ST.START_AT DESC, ST.SHOWTIME_ID DESC
+    </select>
+
+    <insert id="insertShowtime" parameterType="map">
+        <selectKey keyProperty="showtimeId" order="BEFORE" resultType="long">
+            SELECT MOVIE_SHOWTIME_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO T_MOVIE_SHOWTIME (
+            SHOWTIME_ID, MOVIE_ID, THEATER_ID, SCREEN_ID, START_AT, END_AT, SEAT_COUNT
+        ) VALUES (
+            #{showtimeId}, #{movieId}, #{theaterId}, #{screenId},
+            TO_DATE(#{startAt}, 'YYYY-MM-DD"T"HH24:MI'),
+            TO_DATE(#{endAt}, 'YYYY-MM-DD"T"HH24:MI'), #{seatCount}
+        )
+    </insert>
+
+    <insert id="insertSeats" parameterType="map">
+        INSERT INTO T_MOVIE_SHOWTIME_SEAT (SHOWTIME_ID, SEAT_NO, BOOKER_USER_UID)
+        SELECT #{showtimeId}, 'A' || LEVEL, NULL
+        FROM DUAL
+        CONNECT BY LEVEL &lt;= #{seatCount}
+    </insert>
+
+    <delete id="deleteSeats">
+        DELETE FROM T_MOVIE_SHOWTIME_SEAT WHERE SHOWTIME_ID = #{showtimeId}
+    </delete>
+
+    <delete id="deleteShowtime">
+        DELETE FROM T_MOVIE_SHOWTIME WHERE SHOWTIME_ID = #{showtimeId}
+    </delete>
+</mapper>

@@ -20,8 +20,10 @@
     <div class="admin-menu-buttons">
         <a href="/admin/movies">영화 목록 관리</a>
         <a href="/admin/movies/new">영화 등록</a>
+        <a href="/admin/theaters">영화관 관리</a>
+        <a href="/admin/screens">상영관 관리</a>
+        <a href="/admin/showtimes">영화 상영 회차 관리</a>
         <a href="/admin/code/list">공통 코드 관리</a>
-        <a href="/">홈으로 돌아가기</a>
     </div>
 </main>
 </body>

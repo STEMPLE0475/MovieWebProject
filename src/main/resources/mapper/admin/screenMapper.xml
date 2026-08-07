@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.admin.screen.repository.ScreenRepository">
+
+    <select id="selectScreenList" parameterType="long" resultType="map">
+        SELECT SCREEN_ID, THEATER_ID, NAME, CAPACITY, CONTEXT, SCREENX_YN, TWO_D_YN, THREE_D_YN, FOUR_D_YN
+        FROM T_SCREEN
+        WHERE THEATER_ID = #{theaterId}
+        ORDER BY SCREEN_ID
+    </select>
+
+    <insert id="insertScreen" parameterType="map">
+        <selectKey keyProperty="screenId" order="BEFORE" resultType="long">
+            SELECT SCREEN_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO T_SCREEN (
+            SCREEN_ID, THEATER_ID, NAME, CAPACITY, CONTEXT,
+            SCREENX_YN, TWO_D_YN, THREE_D_YN, FOUR_D_YN
+        ) VALUES (
+            #{screenId}, #{theaterId}, #{name}, #{capacity}, #{context},
+            #{screenxYn}, #{twoDYn}, #{threeDYn}, #{fourDYn}
+        )
+    </insert>
+</mapper>

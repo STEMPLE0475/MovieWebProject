@@ -25,4 +25,9 @@ public class CinetalkServiceImpl implements CinetalkService {
         cinetalkMapper.insertTalk(cinetalkDTO);
     }
 
+    @Override
+    public void deleteTalk(Long talkId) {
+        cinetalkMapper.deleteTalk(talkId);
+    }
+
 }

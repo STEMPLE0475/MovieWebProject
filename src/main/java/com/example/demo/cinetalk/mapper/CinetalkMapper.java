@@ -11,4 +11,5 @@ public interface CinetalkMapper {
     // CinetalkMapper.xml 의 selectAllTalks 쿼리와 연결
     List<CinetalkDTO> selectAllTalks();
     int insertTalk(CinetalkDTO cinetalkDTO);
+    int deleteTalk(Long boardId);
 }

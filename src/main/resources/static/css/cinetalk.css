@@ -338,3 +338,36 @@
 .btn-submit:hover {
     background-color: #222222;
 }
+
+/* 드롭다운 메뉴 스타일 */
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 36px;
+    background-color: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    min-width: 110px;
+    overflow: hidden;
+}
+
+.btn-delete {
+    width: 100%;
+    padding: 10px 14px;
+    background: none;
+    border: none;
+    color: #ff3b30; /* 삭제 강조 레드 */
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-delete:hover {
+    background-color: #fff0f0;
+}

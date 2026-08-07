@@ -57,4 +57,21 @@ public class CinetalkController {
         // 작성 완료 후 씨네톡 메인 피드로 이동
         return "redirect:/user/cinetalk";
     }
+
+    // 글 삭제 처리
+    @PostMapping("/cinetalk/delete")
+    public String deleteProcess(Long talkId, HttpSession session) {
+        System.out.println("======> 넘겨받은 삭제 글 번호(talkId): " + talkId); // 👈 콘솔 확인용 Log
+
+        UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
+
+        if (loginUser != null && talkId != null) {
+            cinetalkService.deleteTalk(talkId);
+            System.out.println("======> 삭제 서비스 실행 완료!");
+        } else {
+            System.out.println("======> 삭제 실패: 로그인 상태가 아니거나 talkId가 null입니다.");
+        }
+
+        return "redirect:/user/cinetalk";
+    }
 }

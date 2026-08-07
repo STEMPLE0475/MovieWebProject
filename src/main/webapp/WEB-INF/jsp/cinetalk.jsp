@@ -97,10 +97,29 @@
                     </div>
                   </div>
                   <div class="header-actions">
-                    <button type="button" class="btn-follow">+ 팔로우</button>
-                    <button type="button" class="btn-more">
-                      <span class="material-symbols-outlined">more_vert</span>
-                    </button>
+                    <!-- 1. 본인 글이 '아닐' 때만 팔로우 버튼 -->
+                    <c:if test="${sessionScope.loginUser.userId != talk.userId}">
+                      <button type="button" class="btn-follow">+ 팔로우</button>
+                    </c:if>
+
+                    <!-- 2. '본인 글'일 때만 더보기(...) 및 삭제 메뉴 -->
+                    <c:if test="${sessionScope.loginUser.userId == talk.userId}">
+                      <div class="more-menu-wrapper" style="position: relative;">
+                        <button type="button" class="btn-more" onclick="toggleMenu(this)">
+                          <span class="material-symbols-outlined">more_vert</span>
+                        </button>
+
+                        <div class="dropdown-menu" style="display: none;">
+                          <form action="/user/cinetalk/delete" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                            <input type="hidden" name="talkId" value="${talk.talkId}">
+                            <button type="submit" class="btn-delete">
+                              <span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+                              <span>삭제하기</span>
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    </c:if>
                   </div>
                 </div>
 
@@ -162,6 +181,29 @@
   <div class="rightContentArea"></div>
 
 </main>
+<script>
+  function toggleMenu(button) {
+    //상태 토글다중 열림 방지
+    const dropdown = button.nextElementSibling;
+    const isVisible = dropdown.style.display === 'block'
+
+    //다중 열림 방지
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+      menu.style.display = 'none';
+    });
+
+    dropdown.style.display = isVisible ? 'none' : 'block';
+  }
+
+  //바깥 클릭 감지
+  window.addEventListener('click', function(e) {
+    if (!e.target.closest('.more-menu-wrapper')) {
+      document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        menu.style.display = 'none';
+      });
+    }
+  });
+</script>
 
 </body>
 </html>

@@ -35,4 +35,8 @@
         )
     </insert>
 
+    <delete id="deleteTalk" parameterType="long">
+        DELETE FROM CINETALK WHERE TALK_ID = #{talkId}
+    </delete>
+
 </mapper>

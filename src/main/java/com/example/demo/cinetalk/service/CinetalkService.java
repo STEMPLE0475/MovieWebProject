@@ -7,4 +7,5 @@ import com.example.demo.cinetalk.dto.CinetalkDTO;
 public interface CinetalkService {
     List<CinetalkDTO> getAllTalks();
     void writeTalk(CinetalkDTO cinetalkDTO);
+    void deleteTalk(Long boardId);
 }

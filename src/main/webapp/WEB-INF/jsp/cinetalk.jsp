@@ -1,25 +1,28 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CGV Portfolio - 씨네톡</title>
+  <title>CGV - 씨네톡</title>
 
+  <!-- 공통 CSS, 홈 CSS 및 씨네톡 전용 CSS -->
   <link rel="stylesheet" href="/css/app.css">
   <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="/css/cinetalk.css">
 
+  <!-- Google Fonts & Material Icons (login.jsp와 동일) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=Noto+Sans+KR:wght@400;500;700;800&display=swap"
-        rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-        rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono&family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
 </head>
 <body class="home-body">
+
 <main class="hero">
-  <!-- 왼쪽 사이드바 영역 (기존 유지, 씨네톡 메뉴 active 적용) -->
+
+  <!-- 1. 좌측 사이드바 영역 (login.jsp와 동일, 씨네톡 메뉴 active) -->
   <div class="leftContentArea">
 
     <a href="/" class="logo">
@@ -28,121 +31,137 @@
 
     <nav class="menuList">
       <a href="/" class="menu">
-            <span class="material-symbols-outlined">
-                home
-            </span>
+        <span class="material-symbols-outlined">home</span>
         <span>홈</span>
       </a>
 
-      <!-- 씨네톡 활성화 메뉴 -->
-      <a href="/cinetalk" class="menu active">
-            <span class="material-symbols-outlined">
-                movie
-            </span>
+      <!-- 씨네톡 active 처리 -->
+      <a href="/user/cinetalk" class="menu active">
+        <span class="material-symbols-outlined">movie</span>
         <span>씨네톡</span>
       </a>
 
       <a href="#" class="menu">
-            <span class="material-symbols-outlined">
-                confirmation_number
-            </span>
+        <span class="material-symbols-outlined">confirmation_number</span>
         <span>예매</span>
       </a>
 
       <a href="#" class="menu">
-            <span class="material-symbols-outlined">
-                local_mall
-            </span>
+        <span class="material-symbols-outlined">local_mall</span>
         <span>매점</span>
       </a>
 
       <a href="#" class="menu">
-            <span class="material-symbols-outlined">
-                menu
-            </span>
+        <span class="material-symbols-outlined">menu</span>
         <span>더보기</span>
       </a>
 
       <div class="menuDivider"></div>
 
-      <a href="#" class="menu sub">
-            <span class="material-symbols-outlined">
-                location_on
-            </span>
+      <a href="/admin/code/list" class="menu sub">
+        <span class="material-symbols-outlined">location_on</span>
         <span>상영관 찾기</span>
       </a>
 
       <a href="#" class="menu sub">
-            <span class="material-symbols-outlined">
-                theater_comedy
-            </span>
+        <span class="material-symbols-outlined">theater_comedy</span>
         <span>특별관</span>
       </a>
     </nav>
   </div>
 
-  <!-- 가운데 메인 영역 (씨네톡 게시판 구성을 적용) -->
+  <!-- 2. 중앙 메인 컨텐츠 영역 (씨네톡 피드) -->
   <div class="mainContentArea">
-    <p class="eyebrow">CGV COMMUNITY &middot; CINETALK</p>
-    <h1>자유로운 영화 수다,<br><em>씨네톡</em></h1>
-    <p class="hero-copy">다양한 영화에 대한 생각과 리뷰를 공유해보세요.</p>
+    <div class="cinetalk-wrapper">
 
-    <!-- 글쓰기 / 작성 폼 영역 -->
-    <div class="board-write-box">
-      <form action="/cinetalk/write" method="post" class="board-form">
-        <input type="hidden" name="_csrf" value="${_csrf.token}">
-        <div class="input-group">
-          <input type="text" name="writer" placeholder="작성자 이름" required class="board-input-writer">
-          <input type="text" name="title" placeholder="글 제목을 입력하세요..." required class="board-input-title">
-        </div>
-        <textarea name="content" placeholder="영화 이야기나 감상을 자유롭게 작성해 주세요." required class="board-textarea"></textarea>
-        <div class="board-form-actions">
-          <button type="submit" class="primary-button">글 등록하기 <span>&rarr;</span></button>
-        </div>
-      </form>
-    </div>
+      <!-- 상단 타이틀 -->
+      <h2 class="cinetalk-page-title">씨네톡</h2>
 
-    <!-- 게시글 목록 영역 (최신글이 위로 나열됨) -->
-    <div class="board-list">
-      <c:choose>
-        <c:when test="${not empty talkList}">
-          <c:forEach var="talk" items="${talkList}">
-            <div class="board-card">
-              <div class="board-card-header">
-                <span class="board-card-id">#${talk.talkId}</span>
-                <h3 class="board-card-title"><c:out value="${talk.title}"/></h3>
+      <!-- 피드 리스트 영역 -->
+      <div class="cinetalk-feed-list">
+
+        <c:choose>
+          <%-- DB에 등록된 게시글이 있을 경우 실행 --%>
+          <c:when test="${not empty talkList}">
+            <c:forEach var="talk" items="${talkList}">
+              <div class="cinetalk-card">
+                <!-- 카드 헤더 (프로필 정보) -->
+                <div class="card-header">
+                  <div class="user-profile">
+                    <div class="avatar-icon">
+                      <span class="material-symbols-outlined">person</span>
+                    </div>
+                    <div class="user-info">
+                      <span class="username">${talk.userId}</span>
+                      <span class="subtext">${talk.regDt}</span>
+                    </div>
+                  </div>
+                  <div class="header-actions">
+                    <button type="button" class="btn-follow">+ 팔로우</button>
+                    <button type="button" class="btn-more">
+                      <span class="material-symbols-outlined">more_vert</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- 본문 내용 -->
+                <div class="card-body">
+                  <p class="post-text"><c:out value="${talk.content}"/></p>
+
+                  <!-- 영화 카드 배너 (선택 사항) -->
+                  <div class="movie-banner">
+                    <div class="movie-info-wrap">
+                      <div class="poster-dummy"></div>
+                      <div class="movie-details">
+                        <div class="movie-title-row">
+                          <span class="movie-title">${talk.title}</span>
+                          <span class="age-badge">15</span>
+                        </div>
+                        <span class="movie-eng-title">Movie Post</span>
+                      </div>
+                    </div>
+                    <button type="button" class="btn-ticket">예매하기</button>
+                  </div>
+                </div>
+
+                <!-- 하단 액션 버튼 (좋아요, 댓글, 공유, 북마크) -->
+                <div class="card-footer">
+                  <div class="action-left">
+                    <button type="button" class="action-btn">
+                      <span class="material-symbols-outlined">favorite</span> 0
+                    </button>
+                    <button type="button" class="action-btn">
+                      <span class="material-symbols-outlined">chat_bubble</span> 0
+                    </button>
+                    <button type="button" class="action-btn">
+                      <span class="material-symbols-outlined">ios_share</span>
+                    </button>
+                  </div>
+                  <button type="button" class="action-btn">
+                    <span class="material-symbols-outlined">bookmark</span>
+                  </button>
+                </div>
               </div>
-              <div class="board-card-content">
-                <p><c:out value="${talk.content}"/></p>
-              </div>
-              <div class="board-card-footer">
-                <span class="board-writer"><span class="material-symbols-outlined">person</span> <c:out value="${talk.writer}"/></span>
-                <span class="board-date">${talk.regDt}</span>
-              </div>
-            </div>
-          </c:forEach>
-        </c:when>
-        <c:otherwise>
-          <div class="board-empty">
-            <p>아직 작성된 씨네톡 게시글이 없습니다. 첫 번째 이야기를 남겨보세요!</p>
-          </div>
-        </c:otherwise>
-      </c:choose>
+            </c:forEach>
+          </c:when>
+
+        </c:choose>
+
+      </div>
+
+      <!-- 우측 하단 고정 플로팅 글쓰기 버튼 -->
+      <a href="/user/cinetalk/write" class="btn-fab-write">
+        <span class="material-symbols-outlined">edit</span>
+        <span>글쓰기</span>
+      </a>
+
     </div>
   </div>
 
-  <!-- 오른쪽 광고 영역 (기존 유지) -->
-  <div class="rightContentArea">
-    <div class="rightAdvertise">
-      <div class="advertiseTitle">
-        사랑의 하츄핑: 고래보석의 전설
-      </div>
-      <div class="advertiseContent">
-        더 커진 귀여움과 감동을 극장에서 확인하세요!
-      </div>
-    </div>
-  </div>
+  <!-- 3. 우측 밸런스 영역 -->
+  <div class="rightContentArea"></div>
 
 </main>
+
 </body>
 </html>

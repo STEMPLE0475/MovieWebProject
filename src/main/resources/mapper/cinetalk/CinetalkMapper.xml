@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 🔴 namespace는 본인의 CinetalkMapper 인터페이스 패키지 경로에 맞게 지정하세요 -->
+<mapper namespace="com.example.demo.cinetalk.mapper.CinetalkMapper">
+
+    <!-- 예시: 씨네톡 전체 목록 조회 -->
+    <select id="selectAllTalks" resultType="com.example.demo.cinetalk.dto.CinetalkDTO">
+        SELECT
+            TALK_ID  AS talkId,
+            TITLE    AS title,
+            CONTENT  AS content,
+            USER_ID  AS userId,
+            REG_DT   AS regDt
+        FROM CINETALK
+        ORDER BY TALK_ID DESC
+    </select>
+
+    <!-- 게시글 작성 INSERT -->
+    <insert id="insertTalk" parameterType="com.example.demo.cinetalk.dto.CinetalkDTO">
+        INSERT INTO CINETALK (
+        TALK_ID,
+        TITLE,
+        CONTENT,
+        USER_ID,
+        REG_DT
+        ) VALUES (
+        CINETALK_SEQ.NEXTVAL,  <!-- 시퀀스가 없다면 (SELECT NVL(MAX(TALK_ID), 0) + 1 FROM CINETALK) 로 변경 -->
+        #{title},
+        #{content},
+        #{userId},
+        SYSDATE
+        )
+    </insert>
+
+</mapper>

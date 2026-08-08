@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Form</title>
     <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/admin.css">
     <script>
         function validateForm() {
             const startDate = document.getElementById("screeningStartDate").value;
@@ -23,8 +24,7 @@
     </script>
 </head>
 <body class="admin-body">
-<header class="admin-header"><a href="/" class="logo">CGV<span>.</span></a><span>ADMIN CONSOLE</span></header>
-<main class="content form-wrap"><a class="back-link" href="/admin/movies">&larr; Movie list</a>
+<main class="content form-wrap"><a class="admin-home-link" href="/admin">&larr; 관리자 홈</a>
     <p class="eyebrow">MOVIE MASTER</p>
     <h1><c:choose><c:when
             test="${formMode eq 'edit'}">Edit movie</c:when><c:otherwise>Add a movie</c:otherwise></c:choose></h1>

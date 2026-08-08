@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>공통 코드 관리</title>
+    <link rel="stylesheet" href="/css/admin.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
@@ -202,6 +203,8 @@
     </style>
 </head>
 <body>
+
+<a class="admin-home-link" href="/admin">&larr; 관리자 홈</a>
 
 <h2 style="text-align:center; margin-bottom: 20px;">공통 코드 관리</h2>
 

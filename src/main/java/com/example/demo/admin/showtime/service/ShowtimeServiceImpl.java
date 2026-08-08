@@ -13,8 +13,8 @@ public class ShowtimeServiceImpl implements ShowtimeService {
     private final ShowtimeRepository showtimeRepository;
 
     @Override
-    public List<Map<String, Object>> selectShowtimeList() {
-        return showtimeRepository.selectShowtimeList();
+    public List<Map<String, Object>> selectShowtimeList(Long theaterId) {
+        return showtimeRepository.selectShowtimeList(theaterId);
     }
 
     @Override

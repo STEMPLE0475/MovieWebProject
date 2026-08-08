@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.admin.seatlayout.repository.ScreenSeatLayoutRepository">
+
+    <select id="selectScreenConfig" resultType="map">
+        SELECT SCREEN_ID, NAME, CAPACITY, GRID_COLUMNS, GRID_ROWS
+        FROM T_SCREEN WHERE SCREEN_ID = #{screenId}
+    </select>
+
+    <select id="selectScreenSeats" resultType="map">
+        SELECT SCREEN_SEAT_ID, SEAT_NO, GRID_X, GRID_Y, SEAT_TYPE, USE_YN
+        FROM T_SCREEN_SEAT WHERE SCREEN_ID = #{screenId} AND USE_YN = 'Y'
+        ORDER BY GRID_Y, GRID_X
+    </select>
+
+    <select id="selectMainScreenObject" resultType="map">
+        SELECT GRID_X, GRID_Y, GRID_WIDTH, GRID_HEIGHT
+        FROM T_SCREEN_LAYOUT_OBJECT
+        WHERE SCREEN_ID = #{screenId} AND OBJECT_TYPE = 'SCREEN' AND NAME = 'MAIN'
+    </select>
+
+    <update id="updateScreenGrid" parameterType="map">
+        UPDATE T_SCREEN SET GRID_COLUMNS = #{gridColumns}, GRID_ROWS = #{gridRows}
+        WHERE SCREEN_ID = #{screenId}
+    </update>
+
+    <insert id="upsertMainScreenObject" parameterType="map">
+        MERGE INTO T_SCREEN_LAYOUT_OBJECT T
+        USING (SELECT #{screenId} AS SCREEN_ID FROM DUAL) S
+        ON (T.SCREEN_ID = S.SCREEN_ID AND T.OBJECT_TYPE = 'SCREEN' AND T.NAME = 'MAIN')
+        WHEN MATCHED THEN UPDATE SET T.GRID_X = #{screenX}, T.GRID_Y = #{screenY},
+                                     T.GRID_WIDTH = #{screenWidth}, T.GRID_HEIGHT = #{screenHeight}
+        WHEN NOT MATCHED THEN INSERT (LAYOUT_OBJECT_ID, SCREEN_ID, OBJECT_TYPE, NAME, GRID_X, GRID_Y, GRID_WIDTH, GRID_HEIGHT)
+        VALUES (SCREEN_LAYOUT_OBJECT_SEQ.NEXTVAL, #{screenId}, 'SCREEN', 'MAIN', #{screenX}, #{screenY}, #{screenWidth}, #{screenHeight})
+    </insert>
+
+    <delete id="deleteScreenSeats">
+        DELETE FROM T_SCREEN_SEAT WHERE SCREEN_ID = #{screenId}
+    </delete>
+
+    <select id="selectMaxScreenSeatId" resultType="long">
+        SELECT NVL(MAX(SCREEN_SEAT_ID), 0) FROM T_SCREEN_SEAT
+    </select>
+
+    <insert id="insertScreenSeats">
+        INSERT ALL
+        <foreach collection="seats" item="seat">
+            INTO T_SCREEN_SEAT (SCREEN_SEAT_ID, SCREEN_ID, SEAT_NO, GRID_X, GRID_Y, SEAT_TYPE, USE_YN)
+            VALUES (#{seat.screenSeatId}, #{screenId}, #{seat.seatNo}, #{seat.gridX}, #{seat.gridY}, #{seat.seatType}, 'Y')
+        </foreach>
+        SELECT 1 FROM DUAL
+    </insert>
+</mapper>

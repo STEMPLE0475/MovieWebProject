@@ -1,0 +1,216 @@
+.admin-body {
+    min-height: 100vh;
+    background: #f5f5f3;
+}
+
+.admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 5%;
+    background: #fff;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.content,
+.admin-menu,
+.theater-page,
+.screen-page,
+.showtime-page {
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+.content { max-width: 1200px; }
+.admin-menu { max-width: 720px; }
+.theater-page { max-width: 900px; }
+.screen-page { max-width: 1100px; }
+.showtime-page { max-width: 760px; }
+.seat-layout-page { max-width: 1100px; }
+
+.admin-menu h1,
+.page-heading,
+.theater-page h1,
+.screen-page h1,
+.showtime-page h1 { margin-bottom: 24px; }
+
+.admin-menu-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.admin-menu-buttons a {
+    display: block;
+    padding: 24px;
+    border-radius: 8px;
+    background: #222;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+}
+
+.admin-menu-buttons a:hover { background: #c41230; }
+
+.admin-menu-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.admin-menu-section {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid #d6d6d6;
+}
+
+.admin-menu-section h2 { margin-bottom: 14px; font-size: 18px; }
+
+.admin-home-link {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid #aaa;
+    color: #333;
+    text-decoration: none;
+}
+
+.admin-home-link:hover { background: #eee; }
+
+.context { color: #666; margin-bottom: 18px; }
+.notice { margin: 16px 0; padding: 12px; background: #e9f7ee; color: #176b3a; }
+
+.form-wrap > .eyebrow { margin-top: 20px; }
+.form-wrap > h1 { margin: 10px 0; }
+.form-wrap > p:not(.eyebrow) { margin-bottom: 20px; }
+
+.movie-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 520px;
+}
+
+.movie-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-weight: 700;
+}
+
+.movie-form input { width: 100%; }
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.secondary-button {
+    padding: 12px 16px;
+    color: #333;
+}
+
+.theater-form,
+.screen-form,
+.showtime-form {
+    margin: 20px 0;
+    gap: 12px;
+}
+
+.theater-form { display: flex; align-items: end; }
+.screen-form { display: grid; grid-template-columns: repeat(4, 1fr); }
+.showtime-form { display: grid; grid-template-columns: repeat(2, 1fr); }
+
+.theater-form label,
+.screen-form label,
+.showtime-form label {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.admin-body input,
+.admin-body select,
+.admin-body textarea,
+.admin-body button {
+    padding: 8px;
+    font: inherit;
+}
+
+.theater-table,
+.screen-table,
+.showtime-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+.showtime-table { margin-top: 40px; }
+
+.seat-layout-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 24px 0 14px;
+    padding: 16px;
+    background: #fff;
+    border: 1px solid #ddd;
+}
+
+.seat-layout-controls button { margin-left: 6px; cursor: pointer; }
+.seat-type.active { background: #222; color: #fff; }
+.grid-settings { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+.grid-settings label { display: flex; flex-direction: column; gap: 4px; }
+.grid-settings input { width: 70px; }
+
+.seat-grid {
+    display: grid;
+    gap: 3px;
+    width: min(100%, 760px);
+    min-height: 300px;
+    margin: 16px 0;
+    padding: 16px;
+    background: #222;
+    position: relative;
+}
+
+.seat-cell { min-width: 0; aspect-ratio: 1; padding: 0; border: 0; background: transparent; cursor: pointer; font-size: 10px; }
+.seat-cell.empty { outline: 1px solid #333; }
+.seat-cell:not(.empty) { background: #eee; color: #111; }
+.seat-cell.seat-VIP석 { background: #e96ca9; }
+.seat-cell.seat-장애인석 { background: #55b9ed; }
+
+.screen-bar {
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e88b2e;
+    border-radius: 4px;
+    background: rgba(232, 139, 46, .25);
+    color: #f7c078;
+    font-size: 11px;
+    pointer-events: none;
+}
+
+.theater-table th,
+.theater-table td,
+.screen-table th,
+.screen-table td,
+.showtime-table th,
+.showtime-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+@media (max-width: 720px) {
+    .admin-menu-buttons,
+    .screen-form,
+    .showtime-form { grid-template-columns: 1fr; }
+
+    .theater-form { flex-direction: column; align-items: stretch; }
+}

@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface ShowtimeRepository {
-    List<Map<String, Object>> selectShowtimeList();
+    List<Map<String, Object>> selectShowtimeList(@Param("theaterId") Long theaterId);
     int insertShowtime(Map<String, Object> param);
     int insertSeats(Map<String, Object> param);
     int deleteSeats(@Param("showtimeId") Long showtimeId);

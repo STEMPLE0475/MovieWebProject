@@ -7,36 +7,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>상영관 관리</title>
     <link rel="stylesheet" href="/css/app.css">
-    <style>
-        .screen-page { max-width: 1100px; margin: 50px auto; padding: 0 20px; }
-        .screen-form { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0; }
-        .screen-form label { display: flex; flex-direction: column; gap: 6px; }
-        .screen-form input, .screen-form textarea, .screen-form select { padding: 8px; }
-        .screen-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .screen-table th, .screen-table td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
-        .context { color: #666; }
-    </style>
+    <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body class="admin-body">
 <main class="screen-page">
-    <a href="/admin">&larr; 관리자 페이지</a>
+    <a class="admin-home-link" href="/admin">&larr; 관리자 홈</a>
     <h1>상영관 관리</h1>
     <p class="context">영화관을 선택하면 해당 영화관의 상영관을 조회하고 등록할 수 있습니다.</p>
 
     <form action="/admin/screens" method="get">
-        <label>영화관 선택
-            <select name="theaterId" onchange="this.form.submit()">
-                <option value="">영화관 선택</option>
-                <c:forEach var="theater" items="${theaters}">
-                    <option value="${theater.THEATER_ID}" ${theater.THEATER_ID eq selectedTheaterId ? 'selected' : ''}><c:out value="${theater.THEATER_NAME}"/></option>
+        <label>지역 선택
+            <select name="locationCode" onchange="this.form.submit()">
+                <option value="">지역 선택</option>
+                <c:forEach var="location" items="${locations}">
+                    <option value="${location.CODE}" ${location.CODE eq selectedLocationCode ? 'selected' : ''}><c:out value="${location.CODE_NAME}"/></option>
                 </c:forEach>
             </select>
         </label>
     </form>
 
+    <c:if test="${not empty selectedLocationCode}">
+        <form action="/admin/screens" method="get">
+            <input type="hidden" name="locationCode" value="${selectedLocationCode}">
+            <label>영화관 선택
+                <select name="theaterId" onchange="this.form.submit()">
+                    <option value="">영화관 선택</option>
+                    <c:forEach var="theater" items="${theaters}">
+                        <option value="${theater.THEATER_ID}" ${theater.THEATER_ID eq selectedTheaterId ? 'selected' : ''}><c:out value="${theater.THEATER_NAME}"/></option>
+                    </c:forEach>
+                </select>
+            </label>
+        </form>
+    </c:if>
+
     <c:if test="${not empty selectedTheaterId}">
         <c:if test="${not empty message}"><p class="notice"><c:out value="${message}"/></p></c:if>
         <form class="screen-form" action="/admin/screens" method="post">
+            <input type="hidden" name="locationCode" value="${selectedLocationCode}">
             <input type="hidden" name="theaterId" value="${selectedTheaterId}">
             <label>상영관 이름<input name="name" required maxlength="50" placeholder="예: 1관"></label>
             <label>수용 인원<input type="number" name="capacity" required min="1" placeholder="예: 120"></label>

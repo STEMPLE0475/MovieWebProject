@@ -7,10 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Management</title>
     <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body class="admin-body">
-<header class="admin-header"><a href="/" class="logo">CGV<span>.</span></a><span>ADMIN CONSOLE</span></header>
 <main class="content">
+    <a class="admin-home-link" href="/admin">&larr; 관리자 홈</a>
     <div class="page-heading">
         <div><p class="eyebrow">MOVIE MASTER</p>
             <h1>Movie management</h1>

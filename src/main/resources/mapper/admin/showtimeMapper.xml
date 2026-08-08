@@ -16,6 +16,7 @@
         JOIN T_THEATER T ON T.THEATER_ID = ST.THEATER_ID
         JOIN T_SCREEN SC ON SC.SCREEN_ID = ST.SCREEN_ID
         LEFT JOIN T_MOVIE_SHOWTIME_SEAT SS ON SS.SHOWTIME_ID = ST.SHOWTIME_ID
+        WHERE ST.THEATER_ID = #{theaterId}
         GROUP BY ST.SHOWTIME_ID, M.TITLE, T.THEATER_NAME, SC.NAME,
                  ST.START_AT, ST.END_AT, ST.SEAT_COUNT
         ORDER BY ST.START_AT DESC, ST.SHOWTIME_ID DESC
@@ -35,10 +36,12 @@
     </insert>
 
     <insert id="insertSeats" parameterType="map">
-        INSERT INTO T_MOVIE_SHOWTIME_SEAT (SHOWTIME_ID, SEAT_NO, BOOKER_USER_UID)
-        SELECT #{showtimeId}, 'A' || LEVEL, NULL
-        FROM DUAL
-        CONNECT BY LEVEL &lt;= #{seatCount}
+        INSERT INTO T_MOVIE_SHOWTIME_SEAT (
+            SHOWTIME_ID, SEAT_NO, BOOKER_USER_UID, SCREEN_SEAT_ID, GRID_X, GRID_Y, SEAT_TYPE
+        )
+        SELECT #{showtimeId}, SEAT_NO, NULL, SCREEN_SEAT_ID, GRID_X, GRID_Y, SEAT_TYPE
+        FROM T_SCREEN_SEAT
+        WHERE SCREEN_ID = #{screenId} AND USE_YN = 'Y'
     </insert>
 
     <delete id="deleteSeats">

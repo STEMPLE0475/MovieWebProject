@@ -7,22 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>영화관 관리</title>
     <link rel="stylesheet" href="/css/app.css">
-    <style>
-        .theater-page { max-width: 900px; margin: 50px auto; padding: 0 20px; }
-        .theater-form, .theater-table { width: 100%; margin-top: 20px; }
-        .theater-form { display: flex; gap: 10px; align-items: end; }
-        .theater-form label { display: flex; flex-direction: column; gap: 6px; flex: 1; }
-        .theater-form input, .theater-form select, .theater-form textarea, .theater-table input, .theater-table select, .theater-table textarea { padding: 8px; }
-        .theater-table { border-collapse: collapse; }
-        .theater-table th, .theater-table td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
-        .theater-table form { display: flex; gap: 6px; align-items: center; }
-        .theater-table button { padding: 7px 10px; cursor: pointer; }
-        .context { color: #666; }
-    </style>
+    <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body class="admin-body">
 <main class="theater-page">
-    <a href="/admin">&larr; 관리자 페이지</a>
+    <a class="admin-home-link" href="/admin">&larr; 관리자 홈</a>
     <h1>영화관 관리</h1>
     <p class="context">지역을 선택하고 영화관 이름을 등록·수정하는 관리 화면입니다.</p>
 

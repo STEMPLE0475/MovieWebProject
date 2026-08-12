@@ -1,4 +1,4 @@
-package com.example.demo.admin.screen.repository;
+package com.example.demo.admin.screen.mapper;
 
 import java.util.List;
 import java.util.Map;
@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
-public interface ScreenRepository {
+public interface ScreenMapper {
     List<Map<String, Object>> selectScreenList(@Param("theaterId") Long theaterId);
     void insertScreen(Map<String, Object> param);
 }

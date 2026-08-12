@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>공통 코드 관리</title>
     <link rel="stylesheet" href="/css/admin.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
         body {
             font-family: 'Malgun Gothic', sans-serif;
@@ -212,20 +212,23 @@
     <div class="section">
         <h3 class="header-title">
             <span>상위 코드 목록 (LOCATION)</span>
-            <button onclick="openModal('insert-parent')">+ 추가</button>
+            <button id="parent-add-btn">+ 추가</button>
         </h3>
         <div class="toolbar">
-            <input type="text" id="parent-keyword" placeholder="코드/이름 검색" onkeydown="if(event.key==='Enter') loadParentList()">
-            <label><input type="checkbox" id="parent-show-inactive" onchange="loadParentList()"> 비활성 포함</label>
+            <input type="text" id="parent-keyword" placeholder="코드/이름 검색">
+            <label>
+                <input type="checkbox" id="parent-show-inactive">
+                비활성 포함
+            </label>
         </div>
         <ul class="list-area parent-list" id="parent-list-area">
             <c:forEach var="code" items="${parentCodeList}">
                 <li class="list-item" data-code-id="${code.CODE_ID}"
                     data-code="${code.CODE}" data-code-name="${code.CODE_NAME}" data-sort-order="${code.SORT_ORDER}">
-                    <span class="code-label" onclick="selectParent(this)">[${code.CODE}] ${code.CODE_NAME}</span>
+                    <span class="code-label">[${code.CODE}] ${code.CODE_NAME}</span>
                     <span class="btn-group">
-                        <button onclick="event.stopPropagation(); openModal('edit-parent', this.closest('li'))">수정</button>
-                        <button class="btn-danger" onclick="event.stopPropagation(); deactivateCode(${code.CODE_ID}, this)">비활성화</button>
+                        <button class="edit-code">수정</button>
+                        <button class="btn-danger deactivate-code">비활성화</button>
                     </span>
                 </li>
             </c:forEach>
@@ -235,11 +238,14 @@
     <div class="section">
         <h3 class="header-title">
             <span>하위 코드 목록 (THEATER)</span>
-            <button id="child-add-btn" disabled onclick="openModal('insert-child')">+ 추가</button>
+            <button id="child-add-btn" disabled>+ 추가</button>
         </h3>
         <div class="toolbar">
-            <input type="text" id="child-keyword" placeholder="코드/이름 검색" onkeydown="if(event.key==='Enter') loadChildCodes()">
-            <label><input type="checkbox" id="child-show-inactive" onchange="loadChildCodes()"> 비활성 포함</label>
+            <input type="text" id="child-keyword" placeholder="코드/이름 검색">
+            <label>
+                <input type="checkbox" id="child-show-inactive">
+                비활성 포함
+            </label>
         </div>
         <ul class="list-area child-list" id="child-list-area">
             <li class="empty-msg">상위 코드를 선택해주세요.</li>
@@ -267,8 +273,8 @@
             <input type="number" id="m-sort-order" value="0">
         </div>
         <div class="modal-actions">
-            <button class="btn-cancel" onclick="closeModal()">취소</button>
-            <button class="btn-confirm" onclick="submitModal()">저장</button>
+            <button class="btn-cancel" id="modal-cancel">취소</button>
+            <button class="btn-confirm" id="modal-save">저장</button>
         </div>
     </div>
 </div>
@@ -276,6 +282,20 @@
 <script>
     let selectedParentId = null;
     let modalMode = null; // insert-parent | insert-child | edit-parent | edit-child
+
+    $(function () {
+        $('#parent-add-btn').on('click', () => openModal('insert-parent'));
+        $('#child-add-btn').on('click', () => openModal('insert-child'));
+        $('#parent-show-inactive').on('change', loadParentList);
+        $('#child-show-inactive').on('change', loadChildCodes);
+        $('#parent-keyword').on('keydown', event => { if (event.key === 'Enter') loadParentList(); });
+        $('#child-keyword').on('keydown', event => { if (event.key === 'Enter') loadChildCodes(); });
+        $('#modal-cancel').on('click', closeModal);
+        $('#modal-save').on('click', submitModal);
+        $('#parent-list-area').on('click', '.code-label', function () { selectParent(this); });
+        $('#parent-list-area').on('click', '.edit-code', function (event) { event.stopPropagation(); openModal('edit-parent', $(this).closest('li')); });
+        $('#parent-list-area').on('click', '.deactivate-code', function (event) { event.stopPropagation(); deactivateCode($(this).closest('li').data('code-id')); });
+    });
 
     // ---------- 상위 코드 ----------
     function loadParentList() {

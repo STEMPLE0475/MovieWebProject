@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/admin/theaters")
@@ -30,17 +30,17 @@ public class AdminTheaterController {
         return "admin/theater";
     }
 
+    @ResponseBody
     @PostMapping
-    public String insertTheater(@RequestParam Map<String, Object> param, RedirectAttributes redirectAttributes) {
+    public Map<String, String> insertTheater(@RequestParam Map<String, Object> param) {
         theaterService.insertTheater(param);
-        redirectAttributes.addFlashAttribute("message", "영화관을 등록했습니다.");
-        return "redirect:/admin/theaters";
+        return Map.of("message", "영화관을 등록했습니다.");
     }
 
+    @ResponseBody
     @PostMapping("/update")
-    public String updateTheater(@RequestParam Map<String, Object> param, RedirectAttributes redirectAttributes) {
+    public Map<String, String> updateTheater(@RequestParam Map<String, Object> param) {
         theaterService.updateTheater(param);
-        redirectAttributes.addFlashAttribute("message", "영화관 정보를 수정했습니다.");
-        return "redirect:/admin/theaters";
+        return Map.of("message", "영화관 정보를 수정했습니다.");
     }
 }

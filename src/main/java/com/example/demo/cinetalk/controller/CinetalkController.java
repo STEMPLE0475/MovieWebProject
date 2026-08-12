@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -34,12 +35,16 @@ public class CinetalkController {
 
     // 2. 🔴 [GET] 글쓰기 페이지 이동
     @GetMapping("/cinetalk/write")
-    public String writeForm(HttpSession session) {
+    public String writeForm(HttpSession session, RedirectAttributes rttr) { // 1. RedirectAttributes 추가
         // 비로그인 사용자 방어 (로그인 안 되어 있으면 로그인 페이지로)
         UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
+
         if (loginUser == null) {
+            // 2. 리다이렉트가 발생하는 conditional 안쪽으로 이동
+            rttr.addFlashAttribute("alertMsg", "로그인이 필요한 서비스입니다.");
             return "redirect:/user/login";
         }
+
         return "cinetalk_write"; // 본인 jsp 경로에 맞게 작성
     }
 

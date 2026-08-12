@@ -115,6 +115,12 @@
     <div class="rightContentArea"></div>
 
 </main>
+<!-- login.jsp 파일 맨 아래 script 태그 부분 -->
+<c:if test="${not empty alertMsg}">
+    <script>
+        alert("${alertMsg}");
+    </script>
+</c:if>
 
 </body>
 </html>

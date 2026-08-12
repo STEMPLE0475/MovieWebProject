@@ -59,7 +59,7 @@
                 <span>씨네톡</span>
             </a>
 
-            <a href="#" class="menu">
+            <a href="booking" class="menu">
             <span class="material-symbols-outlined">
                 confirmation_number
             </span>

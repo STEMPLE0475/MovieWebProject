@@ -4,7 +4,8 @@
 
     <!-- 여기에 SQL 쿼리를 작성합니다 -->
     <select id="findByUserId" resultType="com.example.demo.user.dto.UserDTO">
-        SELECT LOGIN_ID AS userId,
+        SELECT USER_UID AS userUid,
+                LOGIN_ID AS userId,
                LOGIN_PW AS password,
                NICKNAME AS name
         FROM USERS

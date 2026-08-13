@@ -1,4 +1,4 @@
-package com.example.demo.admin.seatlayout.repository;
+package com.example.demo.admin.seatlayout.mapper;
 
 import java.util.List;
 import java.util.Map;
@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
-public interface ScreenSeatLayoutRepository {
+public interface ScreenSeatLayoutMapper {
     Map<String, Object> selectScreenConfig(@Param("screenId") Long screenId);
     List<Map<String, Object>> selectScreenSeats(@Param("screenId") Long screenId);
     Map<String, Object> selectMainScreenObject(@Param("screenId") Long screenId);

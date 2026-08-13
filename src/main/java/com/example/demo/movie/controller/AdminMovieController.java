@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,11 +28,11 @@ public class AdminMovieController {
         return "admin/movie-form";
     }
 
+    @ResponseBody
     @PostMapping("/admin/movies")
-    public String insertMovieMaster(@RequestParam Map<String, Object> param, RedirectAttributes redirectAttributes) {
+    public Map<String, String> insertMovieMaster(@RequestParam Map<String, Object> param) {
         movieService.insertMovieMaster(param);
-        redirectAttributes.addFlashAttribute("message", "Movie registered successfully.");
-        return "redirect:/admin/movies";
+        return Map.of("message", "영화를 등록했습니다.");
     }
 
     @GetMapping("/admin/movies/{movieId}/edit")
@@ -42,18 +42,18 @@ public class AdminMovieController {
         return "admin/movie-form";
     }
 
+    @ResponseBody
     @PostMapping("/admin/movies/{movieId}")
-    public String updateMovieMaster(@PathVariable Long movieId, @RequestParam Map<String, Object> param, RedirectAttributes redirectAttributes) {
+    public Map<String, String> updateMovieMaster(@PathVariable Long movieId, @RequestParam Map<String, Object> param) {
         param.put("movieId", movieId);
         movieService.updateMovieMaster(param);
-        redirectAttributes.addFlashAttribute("message", "Movie updated successfully.");
-        return "redirect:/admin/movies";
+        return Map.of("message", "영화 정보를 수정했습니다.");
     }
 
+    @ResponseBody
     @PostMapping("/admin/movies/{movieId}/delete")
-    public String deleteMovieMasterById(@PathVariable Long movieId, RedirectAttributes redirectAttributes) {
+    public Map<String, String> deleteMovieMasterById(@PathVariable Long movieId) {
         movieService.deleteMovieMasterById(movieId);
-        redirectAttributes.addFlashAttribute("message", "Movie deleted successfully.");
-        return "redirect:/admin/movies";
+        return Map.of("message", "영화를 삭제했습니다.");
     }
 }

@@ -156,7 +156,7 @@ public class BookingServiceImpl implements BookingService {
         int updatedSeatCount = bookingMapper.updateShowtimeSeats(bookingParam);
 
         if (seatIds.size() != updatedSeatCount) {
-            throw new IllegalStateException("이미 선점되었거나 선택할 수 없는 좌석이 포함되어 있습니다.");
+            throw new IllegalStateException("이미 선점되었거나 선택할 수 없는 좌석입니다.");
         }
 
         Map<String, Object> result = new HashMap<>();

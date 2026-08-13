@@ -106,7 +106,7 @@
         WHERE SCREEN_ID = #{screenId} AND OBJECT_TYPE = 'SCREEN' AND NAME = 'MAIN'
     </select>
 
-    <!-- 8. 해당 회차의 이미 예매 완료된 좌석 ID 목록 조회 (BOOKER_USER_UID 체크) -->
+    <!-- 8. 해당 회차의 이미 예매 완료된 좌석 ID 목록 조회 -->
     <select id="selectBookedSeatIds" parameterType="long" resultType="long">
         SELECT SCREEN_SEAT_ID
         FROM T_MOVIE_SHOWTIME_SEAT
@@ -114,16 +114,16 @@
         AND BOOKER_USER_UID IS NOT NULL
     </select>
 
-    <!-- 9-1. 예매 ID 시퀀스 번호 미리 조회 -->
+    <!-- 9-1. 예매 ID 시퀀스 번호 미리 조회 (Identity Column을 사용할 경우 이 쿼리는 필요 없으나 기존 코드 호환용 유지) -->
     <select id="selectNextBookingId" resultType="long">
         SELECT S_BOOKING_SEQ.NEXTVAL FROM DUAL
     </select>
 
-    <!-- 9. 예매 마스터 등록 (XML 서브쿼리로 USER_UID 자동 변환) -->
+    <!-- 9. 예매 마스터 등록 (USER_ID -> USER_UID 컬럼으로 변경) -->
     <insert id="insertBooking" parameterType="map" useGeneratedKeys="true" keyProperty="bookingId" keyColumn="BOOKING_ID">
         INSERT INTO S_BOOKING (
         BOOKING_NO,
-        USER_ID,
+        USER_UID,
         SHOWTIME_ID,
         TICKET_COUNT,
         TOTAL_PRICE,
@@ -131,7 +131,7 @@
         BOOKED_AT
         ) VALUES (
         #{bookingNo},
-        /* 🔥 USERS 테이블에서 LOGIN_ID 또는 USER_UID로 숫자 USER_UID 자동 조회 */
+        /* 파라미터가 ID 문자열이든 숫자 UID든 상관없이 NUMBER타입 USER_UID로 변환 */
         (SELECT USER_UID FROM USERS WHERE LOGIN_ID = TO_CHAR(#{userId}) OR TO_CHAR(USER_UID) = TO_CHAR(#{userId})),
         #{showtimeId},
         #{ticketCount},
@@ -141,7 +141,7 @@
         )
     </insert>
 
-    <!-- 10. 선택한 회차 좌석 선점 처리 (XML 서브쿼리로 USER_UID 자동 변환) -->
+    <!-- 10. 선택한 회차 좌석 선점 처리 -->
     <update id="updateShowtimeSeats" parameterType="map">
         UPDATE T_MOVIE_SHOWTIME_SEAT
         SET BOOKER_USER_UID = (SELECT USER_UID FROM USERS WHERE LOGIN_ID = TO_CHAR(#{userId}) OR TO_CHAR(USER_UID) = TO_CHAR(#{userId})),
@@ -154,11 +154,11 @@
         AND BOOKER_USER_UID IS NULL
     </update>
 
-    <!-- 11. 예매 상세 / 티켓 내역 조회 -->
+    <!-- 11. 예매 상세 / 티켓 내역 조회 (B.USER_ID -> B.USER_UID 수정) -->
     <select id="selectBookingDetail" parameterType="long" resultType="map">
         SELECT B.BOOKING_ID,
         B.BOOKING_NO,
-        B.USER_ID,
+        B.USER_UID,
         B.TICKET_COUNT,
         B.TOTAL_PRICE,
         B.STATUS,
@@ -176,13 +176,13 @@
         JOIN T_THEATER T ON T.THEATER_ID = ST.THEATER_ID
         LEFT JOIN T_CODE L ON L.CODE = T.LOCATION_CODE AND L.GROUP_CODE = 'LOCATION'
         JOIN T_SCREEN SC ON SC.SCREEN_ID = ST.SCREEN_ID
-        LEFT JOIN T_MOVIE_SHOWTIME_SEAT SS ON SS.SHOWTIME_ID = ST.SHOWTIME_ID AND SS.BOOKER_USER_UID = B.USER_ID
+        LEFT JOIN T_MOVIE_SHOWTIME_SEAT SS ON SS.BOOKING_ID = B.BOOKING_ID
         WHERE B.BOOKING_ID = #{bookingId}
-        GROUP BY B.BOOKING_ID, B.BOOKING_NO, B.USER_ID, B.TICKET_COUNT, B.TOTAL_PRICE, B.STATUS, B.BOOKED_AT,
+        GROUP BY B.BOOKING_ID, B.BOOKING_NO, B.USER_UID, B.TICKET_COUNT, B.TOTAL_PRICE, B.STATUS, B.BOOKED_AT,
         M.TITLE, T.THEATER_NAME, L.CODE_NAME, SC.NAME, ST.START_AT, ST.END_AT
     </select>
 
-    <!-- 12. 상영 회차 기준 좌석 목록 및 예약 여부 조회 (SEAT_NO 사용) -->
+    <!-- 12. 상영 회차 기준 좌석 목록 및 예약 여부 조회 -->
     <select id="selectSeatsBySchedule" parameterType="long" resultType="map">
         SELECT SEAT_NO AS "seatId",
         SEAT_NO AS "seatNumber",

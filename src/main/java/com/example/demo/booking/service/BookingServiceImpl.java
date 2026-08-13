@@ -121,8 +121,15 @@ public class BookingServiceImpl implements BookingService {
             }
         }
 
+        // -------------------------------------------------------------
+        // [수정된 부분] 좌석 수 검증 (최소 1개 ~ 최대 10개)
+        // -------------------------------------------------------------
         if (seatIds.isEmpty()) {
             throw new IllegalArgumentException("선택된 좌석 정보가 유효하지 않습니다.");
+        }
+
+        if (seatIds.size() > 10) {
+            throw new IllegalArgumentException("좌석은 한 번에 최대 10개까지만 예매할 수 있습니다.");
         }
 
         bookingParam.put("seatIds", seatIds);
@@ -149,7 +156,7 @@ public class BookingServiceImpl implements BookingService {
         int updatedSeatCount = bookingMapper.updateShowtimeSeats(bookingParam);
 
         if (seatIds.size() != updatedSeatCount) {
-            throw new IllegalStateException("이미 선점되었거나 선택할 수 없는 좌석입니다.");
+            throw new IllegalStateException("이미 선점되었거나 선택할 수 없는 좌석이 포함되어 있습니다.");
         }
 
         Map<String, Object> result = new HashMap<>();

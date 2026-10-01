@@ -170,6 +170,25 @@ public class BookingServiceImpl implements BookingService {
         return bookingMapper.selectBookingDetail(bookingId);
     }
 
+    @Override
+    public List<Map<String, Object>> getBookingsByUser(Long userUid) {
+        return bookingMapper.selectBookingsByUserUid(userUid);
+    }
+
+    @Override
+    public Map<String, Object> findBookingByUser(Long userUid, Long bookingId) {
+        return bookingMapper.selectBookingByUserAndId(userUid, bookingId);
+    }
+
+    @Override
+    @Transactional
+    public void cancelBooking(Long userUid, Long bookingId) {
+        if (bookingMapper.cancelBooking(userUid, bookingId) != 1) {
+            throw new IllegalStateException("취소할 수 있는 예매가 없습니다.");
+        }
+        bookingMapper.releaseBookingSeats(bookingId);
+    }
+
     private String generateBookingNo() {
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         int randomNum = new Random().nextInt(900) + 100;

@@ -7,9 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>영화 관리</title>
     <link rel="stylesheet" href="/css/app.css">
-    <link rel="stylesheet" href="/css/admin.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="/js/admin-movie-form.js" defer></script>
+    <link rel="stylesheet" href="/css/admin/admin.css">
+    <script src="/js/admin/admin-movie-form.js" defer></script>
 </head>
 <body class="admin-body">
 <main class="content form-wrap">
@@ -22,7 +21,8 @@
         <c:set var="formAction" value="/admin/movies/${movie.movieId}"/>
     </c:if>
 
-    <form id="movie-form" action="${formAction}" class="movie-form">
+    <p class="context">영화 정보와 극장 상영 기간을 입력해 주세요.</p>
+    <form id="movie-form" action="${formAction}" method="post" class="movie-form">
         <label>
             영화 제목
             <input name="title" value="${movie.title}" maxlength="200" required>
@@ -41,6 +41,7 @@
             <input type="date" id="screeningEndDate" name="screeningEndDate"
                    value="${movie.screeningEndDate}" required>
         </label>
+        <p id="form-error" class="form-error" role="alert" hidden></p>
 
         <div class="form-actions">
             <a class="secondary-button" href="/admin/movies">취소</a>

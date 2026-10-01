@@ -2,6 +2,7 @@ package com.example.demo.cinetalk.controller;
 
 import com.example.demo.cinetalk.dto.CinetalkDTO;
 import com.example.demo.cinetalk.service.CinetalkService;
+import com.example.demo.movie.service.MovieService;
 import com.example.demo.user.dto.UserDTO;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ import java.util.List;
 public class CinetalkController {
 
     private final CinetalkService cinetalkService;
+    private final MovieService movieService;
 
     // GET /user/cinetalk 요청 시 실행
     @GetMapping("/cinetalk")
@@ -35,7 +38,7 @@ public class CinetalkController {
 
     // 2. 🔴 [GET] 글쓰기 페이지 이동
     @GetMapping("/cinetalk/write")
-    public String writeForm(HttpSession session, RedirectAttributes rttr) { // 1. RedirectAttributes 추가
+    public String writeForm(HttpSession session, RedirectAttributes rttr, Model model) {
         // 비로그인 사용자 방어 (로그인 안 되어 있으면 로그인 페이지로)
         UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
 
@@ -45,19 +48,34 @@ public class CinetalkController {
             return "redirect:/user/login";
         }
 
-        return "cinetalk_write"; // 본인 jsp 경로에 맞게 작성
+        model.addAttribute("movies", movieService.selectMovieMasterList());
+        return "cinetalk_write";
     }
 
     // 3. 🔴 [POST] 글 작성 처리
     @PostMapping("/cinetalk/write")
-    public String writeProcess(CinetalkDTO cinetalkDTO, HttpSession session) {
+    public String writeProcess(@RequestParam Long movieId,
+                               @RequestParam String content,
+                               HttpSession session,
+                               RedirectAttributes rttr) {
         UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
 
-        if (loginUser != null) {
-            // 로그인한 유저의 userId를 작성자로 세팅
-            cinetalkDTO.setUserId(loginUser.getUserId());
-            cinetalkService.writeTalk(cinetalkDTO);
+        if (loginUser == null) {
+            rttr.addFlashAttribute("alertMsg", "로그인이 필요한 서비스입니다.");
+            return "redirect:/user/login";
         }
+
+        if (content == null || content.isBlank() || content.length() > 2000) {
+            rttr.addFlashAttribute("alertMsg", "내용은 1자 이상 2,000자 이하로 입력해 주세요.");
+            return "redirect:/user/cinetalk/write";
+        }
+
+        var movie = movieService.selectMovieMasterListById(movieId);
+        CinetalkDTO cinetalkDTO = new CinetalkDTO();
+        cinetalkDTO.setTitle(String.valueOf(movie.get("title")));
+        cinetalkDTO.setContent(content.trim());
+        cinetalkDTO.setUserId(loginUser.getUserId());
+        cinetalkService.writeTalk(cinetalkDTO);
 
         // 작성 완료 후 씨네톡 메인 피드로 이동
         return "redirect:/user/cinetalk";

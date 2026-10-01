@@ -13,6 +13,50 @@
         ORDER BY MOVIE_ID DESC
     </select>
 
+    <select id="selectBookingsByUserUid" resultType="map">
+        SELECT B.BOOKING_ID,
+               B.BOOKING_NO,
+               B.TICKET_COUNT,
+               B.TOTAL_PRICE,
+               B.STATUS,
+               TO_CHAR(B.BOOKED_AT, 'YYYY-MM-DD HH24:MI') AS BOOKED_AT,
+               M.TITLE AS MOVIE_TITLE,
+               T.THEATER_NAME,
+               SC.NAME AS SCREEN_NAME,
+               TO_CHAR(ST.START_AT, 'YYYY-MM-DD HH24:MI') AS START_AT,
+               LISTAGG(SS.SEAT_NO, ', ') WITHIN GROUP (ORDER BY SS.SEAT_NO) AS SEAT_LIST
+        FROM S_BOOKING B
+        JOIN T_MOVIE_SHOWTIME ST ON ST.SHOWTIME_ID = B.SHOWTIME_ID
+        JOIN MOVIE M ON M.MOVIE_ID = ST.MOVIE_ID
+        JOIN T_THEATER T ON T.THEATER_ID = ST.THEATER_ID
+        JOIN T_SCREEN SC ON SC.SCREEN_ID = ST.SCREEN_ID
+        LEFT JOIN T_MOVIE_SHOWTIME_SEAT SS ON SS.BOOKING_ID = B.BOOKING_ID
+        WHERE B.USER_UID = #{userUid}
+        GROUP BY B.BOOKING_ID, B.BOOKING_NO, B.TICKET_COUNT, B.TOTAL_PRICE, B.STATUS, B.BOOKED_AT,
+                 M.TITLE, T.THEATER_NAME, SC.NAME, ST.START_AT
+        ORDER BY B.BOOKED_AT DESC
+    </select>
+
+    <select id="selectBookingByUserAndId" resultType="map">
+        SELECT B.BOOKING_ID, B.STATUS, M.TITLE AS MOVIE_TITLE,
+               TO_CHAR(B.BOOKED_AT, 'YYYY-MM-DD HH24:MI') AS BOOKED_AT
+        FROM S_BOOKING B
+        JOIN T_MOVIE_SHOWTIME ST ON ST.SHOWTIME_ID = B.SHOWTIME_ID
+        JOIN MOVIE M ON M.MOVIE_ID = ST.MOVIE_ID
+        WHERE B.USER_UID = #{userUid} AND B.BOOKING_ID = #{bookingId}
+    </select>
+
+    <update id="cancelBooking">
+        UPDATE S_BOOKING SET STATUS = 'CANCELED'
+        WHERE USER_UID = #{userUid} AND BOOKING_ID = #{bookingId} AND STATUS = 'CONFIRMED'
+    </update>
+
+    <update id="releaseBookingSeats">
+        UPDATE T_MOVIE_SHOWTIME_SEAT
+        SET BOOKER_USER_UID = NULL, BOOKING_ID = NULL
+        WHERE BOOKING_ID = #{bookingId}
+    </update>
+
     <!-- 2. 공통 코드 조회 -->
     <select id="searchCode" parameterType="map" resultType="map">
         SELECT CODE_ID,

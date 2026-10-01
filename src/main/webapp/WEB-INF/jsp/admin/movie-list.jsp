@@ -7,9 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>영화 관리</title>
     <link rel="stylesheet" href="/css/app.css">
-    <link rel="stylesheet" href="/css/admin.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="/js/admin-movie-list.js" defer></script>
+    <link rel="stylesheet" href="/css/admin/admin.css">
+    <script src="/js/admin/admin-movie-list.js" defer></script>
 </head>
 <body class="admin-body">
 <main class="content">

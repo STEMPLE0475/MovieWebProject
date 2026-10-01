@@ -217,3 +217,134 @@
 [hidden] {
     display: none !important;
 }
+
+/* Shared administrator workspace styling */
+.admin-body {
+    color: #202124;
+    background: #f4f6fa;
+    line-height: 1.55;
+}
+
+.admin-body .content,
+.admin-body .admin-menu,
+.admin-body .theater-page,
+.admin-body .screen-page,
+.admin-body .showtime-page,
+.admin-body .seat-layout-page {
+    width: calc(100% - 40px);
+    max-width: 1180px;
+    margin: 38px auto 64px;
+    padding: 30px;
+    border: 1px solid #e8ebf0;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 8px 28px rgba(22, 34, 51, .045);
+}
+
+.admin-body .admin-home-link {
+    border-color: #e3e6ec;
+    border-radius: 8px;
+    background: #fff;
+    color: #566071;
+    font-size: 13px;
+    transition: .18s ease;
+}
+
+.admin-body .admin-home-link:hover { background: #f5f6f8; color: #17191d; }
+.admin-body h1 { color: #191b20; font-size: clamp(25px, 3vw, 32px); letter-spacing: -.04em; }
+.admin-body h2 { color: #272a31; }
+.admin-body .context { color: #7b8190; font-size: 14px; }
+
+.admin-menu-title { margin: 4px 0 32px; }
+.admin-menu-title h1 { margin: 0; }
+.admin-menu-section {
+    margin-top: 18px;
+    padding: 22px;
+    border: 1px solid #eceef2;
+    border-radius: 14px;
+    background: #fff;
+}
+.admin-menu-section h2 { margin: 0 0 15px; font-size: 16px; }
+.admin-menu-buttons { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.admin-menu-buttons a {
+    min-height: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px;
+    border: 1px solid #eceef2;
+    border-radius: 11px;
+    background: #fafbfc;
+    color: #292d35;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 700;
+    transition: .18s ease;
+}
+.admin-menu-buttons a::after { content: '→'; color: #d71935; font-size: 17px; }
+.admin-menu-buttons a:hover { border-color: #f2b9c2; background: #fff7f8; color: #b20e28; transform: translateY(-1px); }
+
+.page-heading { align-items: end; margin: 24px 0 22px; }
+.page-heading .eyebrow { margin: 0 0 6px; color: #d71935; font-size: 11px; }
+.page-heading h1 { margin: 0; }
+.primary-button.compact { border-radius: 9px; padding: 11px 16px; font-size: 13px; }
+.table-panel { overflow-x: auto; border: 1px solid #e9ebef; border-radius: 12px; background: #fff; }
+.admin-body .movie-table { min-width: 850px; border-collapse: separate; border-spacing: 0; }
+.admin-body .movie-table th { padding: 13px 14px; background: #f7f8fa; color: #727887; font: 600 12px 'Noto Sans KR', sans-serif; letter-spacing: 0; white-space: nowrap; }
+.admin-body .movie-table td { padding: 14px; color: #555d6a; font-size: 13px; }
+.admin-body .movie-table td.title { color: #22252b; }
+.admin-body .movie-table tbody tr:hover { background: #fcfcfd; }
+.admin-body .actions { white-space: nowrap; }
+.admin-body .text-button { text-decoration: none; }
+.admin-body .text-button:not(.danger) { color: #b4142b; }
+.admin-body .text-button:hover { text-decoration: underline; }
+
+.form-wrap > .eyebrow { margin-top: 24px; }
+.form-wrap > h1 { margin: 4px 0 8px; }
+.form-wrap > .context { margin-bottom: 22px; }
+.movie-form { max-width: 680px; gap: 18px; padding: 24px; border: 1px solid #eceef2; border-radius: 14px; background: #fff; }
+.movie-form label { gap: 8px; color: #404653; font-size: 13px; }
+.admin-body input,
+.admin-body select,
+.admin-body textarea {
+    min-height: 42px;
+    border: 1px solid #dfe3e9;
+    border-radius: 8px;
+    background: #fff;
+    color: #242832;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+}
+.admin-body textarea { min-height: 90px; }
+.admin-body input:focus,
+.admin-body select:focus,
+.admin-body textarea:focus { border-color: #d71935; box-shadow: 0 0 0 3px rgba(215, 25, 53, .1); }
+.movie-form input[type="date"] { min-height: 46px; padding: 10px 12px; }
+.form-actions { justify-content: flex-end; padding-top: 7px; }
+.form-actions .primary-button { border-radius: 8px; padding: 12px 22px; }
+.form-actions .secondary-button { border: 1px solid #e0e3e9; border-radius: 8px; text-decoration: none; }
+.form-error { color: #b4142b; font-size: 13px; }
+.notice { border: 1px solid #ccebd8; border-radius: 9px; }
+
+.admin-body .theater-table,
+.admin-body .screen-table,
+.admin-body .showtime-table { overflow: hidden; border: 1px solid #e9ebef; border-radius: 11px; }
+.admin-body .theater-table th,
+.admin-body .screen-table th,
+.admin-body .showtime-table th { background: #f7f8fa; color: #626978; font-size: 12px; }
+.admin-body .theater-table td,
+.admin-body .screen-table td,
+.admin-body .showtime-table td { color: #444b57; font-size: 13px; }
+
+@media (max-width: 720px) {
+    .admin-body .content,
+    .admin-body .admin-menu,
+    .admin-body .theater-page,
+    .admin-body .screen-page,
+    .admin-body .showtime-page,
+    .admin-body .seat-layout-page { width: calc(100% - 24px); margin: 12px auto 30px; padding: 20px 16px; border-radius: 13px; }
+    .admin-menu-title { align-items: flex-start; gap: 14px; }
+    .admin-menu-section { padding: 16px; }
+    .page-heading { align-items: flex-start; gap: 14px; }
+    .movie-form { padding: 18px 14px; }
+}

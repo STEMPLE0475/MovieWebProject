@@ -25,4 +25,10 @@ public interface BookingService {
 
     // 7. 예매 완료 상세 조회
     Map<String, Object> getBookingDetail(Long bookingId);
+
+    List<Map<String, Object>> getBookingsByUser(Long userUid);
+
+    Map<String, Object> findBookingByUser(Long userUid, Long bookingId);
+
+    void cancelBooking(Long userUid, Long bookingId);
 }

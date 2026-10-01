@@ -16,6 +16,7 @@
           rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
           rel="stylesheet">
+    <link rel="stylesheet" href="/css/assistant-chat.css">
 </head>
 <body class="home-body">
 <main class="hero">
@@ -73,7 +74,7 @@
                 <span>매점</span>
             </a>
 
-            <a href="#" class="menu">
+            <a href="/more" class="menu">
             <span class="material-symbols-outlined">
                 menu
             </span>
@@ -143,5 +144,17 @@
     </div>
 
 </main>
+<section class="assistant-widget" aria-label="CGV AI 챗봇">
+    <button class="assistant-launcher" id="assistantLauncher" type="button" aria-label="AI 챗봇 열기">
+        <span class="material-symbols-outlined">smart_toy</span><span>AI에게 물어보기</span>
+    </button>
+    <div class="assistant-panel" id="assistantPanel" hidden>
+        <header class="assistant-header"><div><strong>CGV AI 어시스턴트</strong><small>예매내역과 간단한 질문을 도와드려요</small></div><button id="assistantClose" type="button" aria-label="닫기">×</button></header>
+        <div class="assistant-messages" id="assistantMessages" aria-live="polite"><div class="assistant-message bot">안녕하세요! 예매한 영화와 좌석을 확인하거나 취소를 요청할 수 있어요.</div></div>
+        <div class="assistant-suggestions"><button type="button" data-message="내가 예매했던 영화 뭐였지?">내 예매내역</button><button type="button" data-message="어제 예매한 영화 취소해줘.">어제 예매 취소</button></div>
+        <form id="assistantForm" class="assistant-form"><input id="assistantInput" autocomplete="off" maxlength="1000" placeholder="메시지를 입력하세요" aria-label="챗봇 메시지"><button type="submit" aria-label="전송"><span class="material-symbols-outlined">send</span></button></form>
+    </div>
+</section>
+<script src="/js/assistant-chat.js" defer></script>
 </body>
 </html>

@@ -39,25 +39,33 @@
     <div class="mainContentArea">
         <div class="cinetalk-wrapper">
             <h2 class="cinetalk-page-title">씨네톡 글쓰기 ✏️</h2>
+            <c:if test="${not empty alertMsg}"><p class="write-alert"><c:out value="${alertMsg}"/></p></c:if>
 
             <form action="<c:url value='/user/cinetalk/write'/>" method="post" class="write-form-card">
 
-                <!-- 제목 입력 -->
                 <div class="form-group">
-                    <label for="title">제목 / 영화명</label>
-                    <input type="text" id="title" name="title" placeholder="영화 제목이나 한 줄 소감을 입력하세요" required autocomplete="off">
+                    <label for="movieId">영화 선택</label>
+                    <select id="movieId" name="movieId" required ${empty movies ? 'disabled' : ''}>
+                        <option value="">글과 함께 이야기할 영화를 선택해 주세요</option>
+                        <c:forEach var="movie" items="${movies}">
+                            <option value="${movie.movieId}"><c:out value="${movie.title}"/></option>
+                        </c:forEach>
+                    </select>
+                    <c:if test="${empty movies}">
+                        <p class="form-help">현재 선택할 수 있는 등록 영화가 없습니다.</p>
+                    </c:if>
                 </div>
 
                 <!-- 본문 입력 -->
                 <div class="form-group">
                     <label for="content">내용</label>
-                    <textarea id="content" name="content" rows="8" placeholder="영화에 대한 자유로운 생각과 매력 포인트를 공유해 주세요." required></textarea>
+                    <textarea id="content" name="content" rows="8" maxlength="2000" placeholder="영화에 대한 자유로운 생각과 매력 포인트를 공유해 주세요." required></textarea>
                 </div>
 
                 <!-- 하단 버튼 영역 -->
                 <div class="form-actions">
                     <a href="/user/cinetalk" class="btn-cancel">취소</a>
-                    <button type="submit" class="btn-submit">등록하기</button>
+                    <button type="submit" class="btn-submit" ${empty movies ? 'disabled' : ''}>등록하기</button>
                 </div>
 
             </form>

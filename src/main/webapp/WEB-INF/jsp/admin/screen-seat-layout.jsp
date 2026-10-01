@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>상영관 좌석 관리</title>
     <link rel="stylesheet" href="/css/app.css">
-    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/admin/admin.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="/js/admin-seat-layout.js" defer></script>
+    <script src="/js/admin/admin-seat-layout.js" defer></script>
 </head>
 <body class="admin-body">
 <main class="seat-layout-page">

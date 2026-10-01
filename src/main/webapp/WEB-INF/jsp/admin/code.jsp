@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>공통 코드 관리</title>
-    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/admin/admin.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
         body {

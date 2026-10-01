@@ -4,15 +4,16 @@
 
     <insert id="insertMovieMaster" parameterType="map">
         INSERT INTO MOVIE (MOVIE_ID, TITLE, FIRST_RELEASE_DATE, SCREENING_START_DATE, SCREENING_END_DATE, REG_ID, REG_DT)
-        VALUES (MOVIE_SEQ.NEXTVAL, #{title}, #{firstReleaseDate}, #{screeningStartDate}, #{screeningEndDate}, #{regId}, SYSDATE)
+        VALUES (MOVIE_SEQ.NEXTVAL, #{title}, TO_DATE(#{firstReleaseDate}, 'YYYY-MM-DD'),
+                TO_DATE(#{screeningStartDate}, 'YYYY-MM-DD'), TO_DATE(#{screeningEndDate}, 'YYYY-MM-DD'), #{regId}, SYSDATE)
     </insert>
 
     <select id="selectMovieMasterList" resultType="map">
         SELECT MOVIE_ID AS "movieId",
         TITLE AS "title",
-        FIRST_RELEASE_DATE AS "firstReleaseDate",
-        SCREENING_START_DATE AS "screeningStartDate",
-        SCREENING_END_DATE AS "screeningEndDate",
+        TO_CHAR(FIRST_RELEASE_DATE, 'YYYY-MM-DD') AS "firstReleaseDate",
+        TO_CHAR(SCREENING_START_DATE, 'YYYY-MM-DD') AS "screeningStartDate",
+        TO_CHAR(SCREENING_END_DATE, 'YYYY-MM-DD') AS "screeningEndDate",
         REG_ID AS "regId",
         REG_DT AS "regDt",
         MOD_ID AS "modId",
@@ -24,9 +25,9 @@
     <select id="selectMovieMasterListById" parameterType="long" resultType="map">
         SELECT MOVIE_ID AS "movieId",
         TITLE AS "title",
-        FIRST_RELEASE_DATE AS "firstReleaseDate",
-        SCREENING_START_DATE AS "screeningStartDate",
-        SCREENING_END_DATE AS "screeningEndDate",
+        TO_CHAR(FIRST_RELEASE_DATE, 'YYYY-MM-DD') AS "firstReleaseDate",
+        TO_CHAR(SCREENING_START_DATE, 'YYYY-MM-DD') AS "screeningStartDate",
+        TO_CHAR(SCREENING_END_DATE, 'YYYY-MM-DD') AS "screeningEndDate",
         REG_ID AS "regId",
         REG_DT AS "regDt",
         MOD_ID AS "modId",
@@ -38,9 +39,9 @@
     <update id="updateMovieMaster" parameterType="map">
         UPDATE MOVIE
         SET TITLE = #{title},
-        FIRST_RELEASE_DATE = #{firstReleaseDate},
-        SCREENING_START_DATE = #{screeningStartDate},
-        SCREENING_END_DATE = #{screeningEndDate},
+        FIRST_RELEASE_DATE = TO_DATE(#{firstReleaseDate}, 'YYYY-MM-DD'),
+        SCREENING_START_DATE = TO_DATE(#{screeningStartDate}, 'YYYY-MM-DD'),
+        SCREENING_END_DATE = TO_DATE(#{screeningEndDate}, 'YYYY-MM-DD'),
         MOD_ID = #{modId},
         MOD_DT = SYSDATE
         WHERE MOVIE_ID = #{movieId}

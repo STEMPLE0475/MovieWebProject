@@ -40,6 +40,14 @@ public interface BookingMapper {
     // 11. 예매 상세 / 티켓 내역 조회
     Map<String, Object> selectBookingDetail(Long bookingId);
 
+    List<Map<String, Object>> selectBookingsByUserUid(@Param("userUid") Long userUid);
+
+    Map<String, Object> selectBookingByUserAndId(@Param("userUid") Long userUid, @Param("bookingId") Long bookingId);
+
+    int cancelBooking(@Param("userUid") Long userUid, @Param("bookingId") Long bookingId);
+
+    int releaseBookingSeats(@Param("bookingId") Long bookingId);
+
     // 회차 ID로 좌석 목록 조회
     List<Map<String, Object>> selectSeatsBySchedule(Long scheduleId);
 
